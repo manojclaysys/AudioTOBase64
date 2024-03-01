@@ -1,0 +1,480 @@
+﻿@{
+    var result = ViewBag.result as string;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width , initial-scale=1.0" />
+    <title>Upload Audio File</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome CSS -->
+    <style>
+        #responseContainer {
+            margin-top: -100px;
+            margin-left: 25%;
+            width: 700px;
+        }
+
+        #ConvertedString {
+            width: 700px;
+        }
+
+        .upload-form {
+            margin-top: 15%;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            margin-top: 10px;
+        }
+
+        .base64-box {
+            width: 100%;
+            padding: 5px;
+            overflow-wrap: break-word; /* Wrap long strings */
+        }
+
+        body {
+            font-family: "Open Sans", sans-serif; /* Applying Roboto font */
+            font-size: 15px;
+        }
+
+        .info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .img img {
+            height: 130px;
+            width: 130px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .button-green {
+            background-color: lightgreen;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .success__page {
+            padding-top: 50px;
+        }
+
+        .button-green:hover {
+            background-color: lightgreen;
+            color: white;
+        }
+
+        .button-green1 {
+            background-color: lightgreen;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .button-green1:hover {
+                background-color: lightgreen;
+                color: white;
+            }
+
+        /* Define the styles for the pulsating circle */
+        .pulsating-circle {
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            background-color: #d3d3d3;
+            position: relative;
+            animation: pulse 1.5s infinite ease-in-out;
+            margin: 0 auto;
+            margin-top: 20px;
+            display: none; /* Hide the circle initially */
+        }
+
+        /* Define the animation for the pulsating circle */
+        @@keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        .txt__input {
+            width: 80%;
+            max-width: 400px; /* Limit width for larger screens */
+            height: 36px;
+            border-radius: 21px;
+            padding: 10px;
+            margin: 10px auto; /* Center horizontally and add space */
+            display: block; /* Ensure input boxes are on separate lines */
+        }
+
+        .upload-form {
+            width: 350px;
+            height: 100vh;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #uploadForm {
+            display: block;
+            width: 100%;
+        }
+
+        #btnSubmit {
+            border: 1px solid blue;
+            background-color: blue;
+            color: #fff;
+            font-size: 15px;
+            padding: 10px;
+            min-width: 140px;
+            font-weight: 600;
+            height: 40px;
+            display: inline-block; /* Allow the button to adjust its width */
+            text-align: center;
+            text-decoration: none;
+            margin: 15px auto; /* Center horizontally and add space */
+            border-radius: 50px;
+            width: 150px; /* Initial width */
+            margin-top: 0;
+        }
+
+        .text-center {
+            color: #808080;
+            text-align: center; /* Center text */
+        }
+
+        .info h4 {
+            font-family: "Open Sans", sans-serif; /* Applying Roboto font */
+            font-weight: 600;
+            font-size: 20px;
+            padding-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .pharse__input {
+            width: 80%;
+            margin: 8% auto;
+            text-align: center;
+        }
+
+        .Text_prompts {
+            background: #e5e3e3;
+            width: 100%;
+            height: auto;
+            border-radius: 21px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-wrap: break-word;
+        }
+
+        .text-danger {
+            margin-left: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .box2 {
+            background: #f5f5dc;
+            width: 100%;
+            border-radius: 21px;
+            padding: 20px;
+            margin: 20px auto;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+        }
+        /* Define the styles for the microphone icon */
+        .mic-icon {
+            font-size: 5vw; /* Adjust size as needed */
+            color: #add8e6; /* Change the color as desired */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        /* Define styles for the countdown text */
+        .countdown {
+            font-size: 36px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Make the design responsive */
+        @@media (max-width: 767px) {
+
+            .txt__input {
+                width: 90%; /* Adjust width for smaller screens */
+            }
+
+            .pharse__input {
+                width: 90%;
+            }
+
+            .pulsating-circle {
+                width: 30vw;
+                height: 30vw;
+            }
+
+            .mic-icon {
+                font-size: 10vw;
+            }
+
+            .countdown {
+                font-size: 26px;
+            }
+        }
+
+
+        .split-btn {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        $(document).ready(function () {
+            var result = '@result';
+
+
+            if (result === "Success") {
+                $('.progress__page').hide();
+                $('.fail__page').hide();
+                $('.success__page').show();
+                $('.pharse__input').hide();
+            }
+            else if (result === "Fail") {
+                $('.progress__page').hide();
+                $('.fail__page').show();
+                $('.success__page').hide();
+                $('.pharse__input').hide();
+            }
+            else {
+                $('.progress__page').show();
+                $('.fail__page').hide();
+                $('.success__page').hide();
+            }
+        });
+    </script>
+
+    <div class="progress__page" style="display:block">
+        <div class="upload-form">
+            <h4 class="text-center">Voice Liveness</h4>
+            <form id="uploadForm" action="audioRecording" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input id="EmployeeID" name="EmployeeID" class="txt__input" placeholder="Please enter a Employee ID" />
+                </div>
+                <div class="form-group">
+                    <input id="Email" name="Email" class="txt__input" placeholder="Please enter a Email" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input name="audioString" type="hidden" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Start Recording" id="btnSubmit" class="btn btn-primary btn-block" onclick="startRecording()" />
+                </div>
+                <div class="form-group" style="display:none;">
+                    <input id="audioFile" name="File" type="file" accept="audio/*" capture="microphone">
+                </div>
+                <div id="myModal" class="modal">
+                    <div id="modalContent"></div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="pharse__input" style="display:none">
+        <h3>Please say the below sentence:</h3>
+        @*        <input type="text" class="Text_prompts" name="pharse" id="pharse" value="" contenteditable="true" />
+        *@
+        <div class="box2">
+            @ViewBag.PromptValue
+        </div>
+        <div class="countdown" id="countdown"></div>
+        <div class="pulsating-circle" id="circle">
+            <i class="fas fa-microphone mic-icon"></i>
+        </div>
+    </div>
+
+    <div class="success__page" style="display:none">
+        <div class="img">
+            <img src="/css/Images/checklist_10629607.png" />
+        </div>
+        <div class="info">
+            <h4>Voice Liveness Verification Successful.</h4>
+            <div class="split-btn">
+                <a class="nav-link button-green" asp-area="" asp-controller="Audio" asp-action="audioRecording">Retry</a>
+                <a class="nav-link button-green1" asp-area="" asp-controller="Audio" asp-action="Index">Continue</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fail__page" style="display:none">
+        <div class="img">
+            <img src="/css/Images/Error-512.png" />
+        </div>
+        <div class="info">
+            <h4>Voice Liveness Verification Failed</h4>
+            <a class="nav-link button-green" asp-area="" asp-controller="Audio" asp-action="audioRecording">Retry</a>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var quotes = @Html.Raw(Json.Serialize(ViewBag.PromptValue));
+
+        // Wait for the document to be ready
+        $(document).ready(function () {
+            // Set the value of the phrase input
+            $('#pharse').text(quotes);
+
+            // Listen for input events on the phrase input
+            $('#pharse').on('input', function () {
+                var maxLength = 68; // Maximum length allowed
+                var input = $(this).val();
+                if (input.length > maxLength) {
+                    // Calculate number of lines needed
+                    var lines = Math.ceil(input.length / maxLength);
+                    // Split the input into parts and join them with newline character
+                    var wrappedInput = input.replace(new RegExp('.{1,' + maxLength + '}', 'g'), '$&\n');
+                    $(this).val(wrappedInput);
+                    // Adjust height of the input field based on number of lines
+                    $(this).css('height', (1.5 * lines) + 'em'); // Adjust line height as needed
+                } else {
+                    // If input length is within limit, reset height and value
+                    $(this).css('height', 'auto');
+                    $(this).val(input);
+                }
+            });
+        });
+
+        //For Audio record
+        function startRecording() {
+            var employeeId = $('#EmployeeID').val().trim();
+            var email = $('#Email').val().trim();
+
+            if (employeeId === '' && email === '') {
+                // Display error message
+                $('.text-danger').text('Please enter either Employee ID or Email.');
+                return false; // Prevent form submission
+            } else {
+                $('.pharse__input').show();
+                $('.progress__page').hide();
+
+                var countdownElement = $('#countdown');
+                var count = 3;
+
+                countdownElement.text('Recording will start in ' + count + '...');
+
+                var countdownInterval = setInterval(function () {
+                    count--;
+                    countdownElement.text('Recording will start in ' + count + '...');
+
+                    if (count <= 0) {
+                        clearInterval(countdownInterval); // Stop the countdown
+                        $('#countdown').hide();
+                        $('#countdown__Text').hide();
+
+                        // Start recording
+                        $('.text-danger').text('');
+
+                        fetch('/Audio/StartRecording', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Update the recording status
+                                    $('.pulsating-circle').show();
+
+                                    // Automatically end recording after 10 seconds
+                                    setTimeout(stopRecording, 10000);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error starting recording:', error);
+                            });
+                    }
+                }, 2000);
+            }
+        }
+
+        function stopRecording() {
+            // Send a POST request to the server to stop recording
+            fetch('/Audio/StopRecording', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Fetch the encoded audio from the server
+                        fetch('/Audio/StopRecording')
+                            .then(response => response.text())
+                            .then(encodedAudio => {
+                                var formData = new FormData();
+                                formData.append('audioString', encodedAudio);
+                                formData.append('EmployeeID', $('#EmployeeID').val());
+                                formData.append('Email', $('#Email').val());
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: $('#uploadForm').attr('action'),
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (data) {
+                                        $('#modalContent').html(data);
+                                        $('#myModal').modal('show');
+                                    },
+                                    error: function () {
+                                        console.log('Error processing audio');
+                                    }
+                                });
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error stopping recording:', error);
+                });
+        }
+    </script>
+
+</body>
+</html>

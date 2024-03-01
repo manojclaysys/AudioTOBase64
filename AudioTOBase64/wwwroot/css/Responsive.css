@@ -1,0 +1,91 @@
+﻿/* Base Styles */
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: auto;
+    
+    width: 70%;
+    margin: 90px auto;
+    border-radius: 10px;
+    /* box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); */
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* VoiceLive Component */
+
+.voiceLive {
+    height: auto;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.button-blue {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+
+    .button-blue:hover {
+        background-color: darkblue;
+    }
+
+.img img {
+    height: auto;
+    width: 100%;
+    max-width: 120px;
+}
+
+.img {
+    text-align: center;
+}
+
+.info {
+    text-align: center;
+    padding-top: 15px;
+}
+
+/* Details Component */
+
+.details {
+    height: auto;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Responsive Design */
+
+@media screen and (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .voiceLive {
+        width: 58%;
+        margin-bottom: 0;
+    }
+
+    .details {
+        width: 35%;
+        margin-left: 2%;
+        height: 250px;
+    }
+}
+

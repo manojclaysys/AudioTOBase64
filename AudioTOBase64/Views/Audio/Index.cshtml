@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+    <link href="~/css/responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="voiceLive">
+            <div class="img">
+                <img src="/css/Images/medium-volume_11452332.png" alt="Volume Icon">
+            </div>
+            <div class="info">
+                <h3>Voice Liveness</h3>
+                <p>This will be used to verify user ID</p>
+                <a class="nav-link button-blue" asp-area="" asp-controller="Audio" asp-action="audioRecording">Start</a>
+            </div>
+        </div>
+        <div class="details">
+            <h3>Information</h3>
+            <hr>
+            <p>This will be used to verify user ID</p>
+        </div>
+    </div>
+</body>
+</html>

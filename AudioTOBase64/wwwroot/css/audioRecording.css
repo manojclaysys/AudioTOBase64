@@ -1,0 +1,110 @@
+﻿/* Mobile-first responsive styles */
+.success__page {
+    text-align: center;
+    margin: 20px auto;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding-bottom:15px;
+}
+.fail__page {
+    text-align: center;
+    margin: 20px auto;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+    .info h4 {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font: caption;
+        font-weight: 700;
+    }
+.img img {
+    height: 130px;
+    width: 130px;
+    
+}
+.button-green {
+    background-color: lightgreen;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    width: fit-content;
+    
+}
+
+    .button-green:hover {
+        background-color: lightgreen;
+        color: white;
+    }
+
+.button-green1 {
+    background-color: lightgreen;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    width: fit-content;
+    
+}
+
+    .button-green1:hover {
+        background-color: lightgreen;
+        color: white;
+    }
+
+/* Responsive styles for smaller screens */
+@media screen and (max-width: 768px) {
+    .success__page {
+        margin: 10px auto;
+    }
+
+    .img img {
+        width: 100px; /* Adjust as needed */
+        height: auto;
+    }
+
+    .info {
+        margin-top: 20px;
+    }
+
+    .button-green1,
+    .button-green {
+        margin-top: 10px;
+    }
+}
+
+/* Responsive styles for even smaller screens */
+@media screen and (max-width: 500px) {
+    .img img {
+        width: 80px; /* Adjust as needed */
+    }
+
+    .info {
+        margin-top: 10px;
+    }
+
+    .button-green1,
+    .button-green {
+        margin-top: 5px;
+        padding: 8px 15px;
+    }
+}

@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Audio Recording";
+}
+
+<h2>Audio Recording</h2>
+
+<button id="startRecording">Start Recording</button>
+<button id="stopRecording" disabled>Stop Recording</button>
+<form method="post" enctype="multipart/form-data" action="@Url.Action("Record", "Audio")" id="audioForm">
+    <input type="hidden" name="audioData" id="audioData" />
+    <button type="submit" id="submitForm" disabled>Record</button>
+</form>
+
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+
+    const startRecordingButton = document.getElementById('startRecording');
+    const stopRecordingButton = document.getElementById('stopRecording');
+    const submitFormButton = document.getElementById('submitForm');
+    const audioDataInput = document.getElementById('audioData');
+    const audioForm = document.getElementById('audioForm');
+
+    startRecordingButton.addEventListener('click', startRecording);
+    stopRecordingButton.addEventListener('click', stopRecording);
+    audioForm.addEventListener('submit', submitForm);
+
+    function startRecording() {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then((stream) => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = handleDataAvailable;
+                mediaRecorder.onstop = handleStop;
+
+                startRecordingButton.disabled = true;
+                stopRecordingButton.disabled = false;
+                submitFormButton.disabled = true;
+
+                audioChunks = [];
+                mediaRecorder.start();
+            })
+            .catch((error) => {
+                console.error('Error accessing microphone:', error);
+            });
+    }
+
+    function stopRecording() {
+        mediaRecorder.stop();
+        startRecordingButton.disabled = false;
+        stopRecordingButton.disabled = true;
+        submitFormButton.disabled = false;
+    }
+
+    function handleDataAvailable(event) {
+        if (event.data.size > 0) {
+            audioChunks.push(event.data);
+        }
+    }
+
+    function handleStop() {
+        const blob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(blob);
+        audioDataInput.value = audioUrl;
+
+        // Optionally, you can preview the recorded audio
+        const audioPreview = document.createElement('audio');
+        audioPreview.controls = true;
+        audioPreview.src = audioUrl;
+        document.body.appendChild(audioPreview);
+    }
+
+    function submitForm(event) {
+        // Uncomment the following line if you want to prevent the default form submission
+        // event.preventDefault();
+        // You can add additional logic before submitting the form if needed
+    }
+</script>
