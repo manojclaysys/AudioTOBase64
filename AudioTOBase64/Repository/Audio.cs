@@ -8,7 +8,7 @@ namespace AudioTOBase64.Repository
 {
     public class Audio
     {
-        // Audio to base64
+       
         private readonly IConfiguration _configuration;
         private SqlConnection connection;
 

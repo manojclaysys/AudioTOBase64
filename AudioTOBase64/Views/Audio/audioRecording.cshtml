@@ -294,12 +294,12 @@
                     <input id="EmployeeID" name="EmployeeID" class="txt__input" placeholder="Please enter a Employee ID" />
                 </div>
                 <div class="form-group">
-                    <input id="Email" name="Email" class="txt__input" placeholder="Please enter a Email" />
+                    <input id="Email" name="Email" class="txt__input" onfocusout="validateEmail()" placeholder="Please enter an Email" />
                     <span class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
-                    <input name="audioString" type="hidden" />
-                    <span class="text-danger"></span>
+                    <input id="audioString" name="audioString" type="hidden" />
                 </div>
                 <div class="form-group">
                     <input type="button" value="Start Recording" id="btnSubmit" class="btn btn-primary btn-block" onclick="startRecording()" />
@@ -354,6 +354,29 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
+        // Function to validate email
+        function validateEmail() {
+            var emailInput = $('#Email');
+            var email = emailInput.val().trim();
+
+            if (email !== '' && !isValidEmail(email)) {
+
+                $('#btnSubmit').prop('disabled', true);
+                emailInput.siblings('.text-danger').text('Please enter a valid email address.');
+            }
+            else if (email === '' || isValidEmail(email)) {
+                $('#btnSubmit').prop('disabled', false);
+                emailInput.siblings('.text-danger').text('');
+            }
+        }
+
+        // Function to check if email is valid
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+            return emailRegex.test(email);
+        }
+
         var quotes = @Html.Raw(Json.Serialize(ViewBag.PromptValue));
 
         // Wait for the document to be ready
@@ -407,7 +430,7 @@
                         clearInterval(countdownInterval); // Stop the countdown
                         $('#countdown').hide();
                         $('#countdown__Text').hide();
-
+                        $('.pulsating-circle').show();
                         // Start recording
                         $('.text-danger').text('');
 
@@ -420,7 +443,7 @@
                             .then(response => {
                                 if (response.ok) {
                                     // Update the recording status
-                                    $('.pulsating-circle').show();
+
 
                                     // Automatically end recording after 10 seconds
                                     setTimeout(stopRecording, 10000);
@@ -449,10 +472,8 @@
                             .then(response => response.text())
                             .then(encodedAudio => {
                                 var formData = new FormData();
-                                formData.append('audioString', encodedAudio);
                                 formData.append('EmployeeID', $('#EmployeeID').val());
                                 formData.append('Email', $('#Email').val());
-
                                 $.ajax({
                                     type: "POST",
                                     url: $('#uploadForm').attr('action'),
@@ -474,6 +495,8 @@
                     console.error('Error stopping recording:', error);
                 });
         }
+
+
     </script>
 
 </body>
