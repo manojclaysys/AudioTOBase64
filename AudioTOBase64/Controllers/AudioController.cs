@@ -2,6 +2,7 @@
 using AudioTOBase64.Repository;
 using Microsoft.AspNetCore.Mvc;
 using NAudio.Wave;
+using System.Runtime.InteropServices;
 
 namespace AudioTOBase64.Controllers
 {
@@ -109,15 +110,46 @@ namespace AudioTOBase64.Controllers
             return Convert.ToBase64String(audioData);
         }
 
-        public IActionResult audioRecording()
+
+        public class EmulatorDetector
         {
-            Audio audioRepository = new Audio(_configuration);
-            string promptValue;
-            promptValue = audioRepository.GetRandomPromptsFromDatabase();
-            ViewBag.PromptValue = promptValue;
-            Class model = new Class();
-            TempData["promptValue"] = promptValue;
-            return View();
+            // Import the Windows API function to check if the application is running in an emulator
+            // Import the Windows API function to check if the application is running in an emulator
+            [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+            public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+
+            public static bool IsEmulator()
+            {
+                // Check if any emulator-related module is loaded in memory
+                // Example: Android emulator module name
+                IntPtr moduleHandle = GetModuleHandle("qemu-system-i386");
+                IntPtr moduleHandle64 = GetModuleHandle("qemu-system-x86_64");
+
+                return moduleHandle != IntPtr.Zero || moduleHandle64 != IntPtr.Zero;
+            }
+
+        }
+
+    public IActionResult audioRecording()
+        {
+            // Check if the audioData was received from an emulator
+            if (EmulatorDetector.IsEmulator())
+            {
+                return View("emulator_Found");
+            }
+            else
+            {
+                Audio audioRepository = new Audio(_configuration);
+                string promptValue;
+                promptValue = audioRepository.GetRandomPromptsFromDatabase();
+                ViewBag.PromptValue = promptValue;
+                Class model = new Class();
+                TempData["promptValue"] = promptValue;
+                return View();
+                // ViewBag.result = "Emulator_Found";
+                // return View("emulator_Found");
+            }
         }
 
 

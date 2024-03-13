@@ -1,0 +1,100 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome CSS -->
+<style>
+    #responseContainer {
+        margin-top: -100px;
+        margin-left: 25%;
+        width: 700px;
+    }
+
+    #ConvertedString {
+        width: 700px;
+    }
+
+
+    body {
+        font-family: "Open Sans", sans-serif; /* Applying Roboto font */
+        font-size: 15px;
+    }
+
+    .info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .img img {
+        height: 130px;
+        width: 130px;
+        margin: 0 auto;
+        display: block;
+    }
+
+
+    /* Define the animation for the pulsating circle */
+    @@keyframes pulse {
+        0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+    }
+
+
+
+    .text-center {
+        color: #808080;
+        text-align: center; /* Center text */
+    }
+
+    .info h4 {
+        font-family: "Open Sans", sans-serif; /* Applying Roboto font */
+        font-weight: 600;
+        font-size: 20px;
+        padding-bottom: 30px;
+        padding-top: 20px;
+    }
+
+    /* Make the design responsive */
+    @@media (max-width: 767px) {
+
+        .txt__input {
+            width: 90%; /* Adjust width for smaller screens */
+        }
+
+        .pharse__input {
+            width: 90%;
+        }
+
+        .pulsating-circle {
+            width: 30vw;
+            height: 30vw;
+        }
+
+        .mic-icon {
+            font-size: 10vw;
+        }
+
+        .countdown {
+            font-size: 26px;
+        }
+    }
+
+</style>
+<div>
+    <div class="img">
+        <img src="/css/Images/Error-512.png" />
+    </div>
+    <div class="info">
+        <h4>The project failed to execute. It was accessed via an Emulator.</h4>
+    </div>
+</div>
