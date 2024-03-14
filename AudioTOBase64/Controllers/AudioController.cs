@@ -133,8 +133,12 @@ namespace AudioTOBase64.Controllers
 
     public IActionResult audioRecording()
         {
-            // Check if the audioData was received from an emulator
-            if (EmulatorDetector.IsEmulator())
+            
+            if (IsRunningOnEmulator())
+            {
+                return View("emulator_Found");
+            }
+            else if (RootChecker.IsDeviceRooted())
             {
                 return View("emulator_Found");
             }
@@ -147,9 +151,42 @@ namespace AudioTOBase64.Controllers
                 Class model = new Class();
                 TempData["promptValue"] = promptValue;
                 return View();
-                // ViewBag.result = "Emulator_Found";
                 // return View("emulator_Found");
             }
+        }
+        public static bool IsRunningOnEmulator()
+        {
+            // Detecting Android Emulator
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // Check if running on the Android Emulator
+                return DetectAndroidEmulator();
+            }
+
+            // Add detection logic for other platforms (if applicable)
+
+            // Default to assuming not running on an emulator
+            return false;
+        }
+
+        private static bool DetectAndroidEmulator()
+        {
+            // Check if running on the Android Emulator by examining system properties
+            string product = Environment.GetEnvironmentVariable("ANDROID_PRODUCT");
+            string manufacturer = Environment.GetEnvironmentVariable("ANDROID_MANUFACTURER");
+
+            // Possible emulator product and manufacturer values
+            string[] emulatorProducts = { "sdk", "google_sdk", "generic", "VirtualBox", "VMware Workstation", "QEMU", "DOSBox", "PCSX2", "Dolphin", "Citra", "RPCS3", "MAME", "BlueStacks", "Xamarin Android Player", "Apple iOS Simulator", "Genymotion", "Andyroid", "Nox App Player" };
+            string[] emulatorManufacturers = { "unknown", "Genymotion", "Virtual", "Oracle Corporation", "VMware, Inc.", "QEMU Project", "DOSBox Team", "PCSX2 Team", "Dolphin Emulator Project", "Citra Team", "RPCS3 Team", "MAME Development Team", "BlueStacks Inc.", "Xamarin (Microsoft)", "Apple Inc.", "Andyroid", "Nox Digital Entertainment Co. Limited" };
+
+            // Check if product or manufacturer matches any of the possible emulator values
+            if ((!string.IsNullOrEmpty(product) && emulatorProducts.Contains(product.ToLower())) ||
+                (!string.IsNullOrEmpty(manufacturer) && emulatorManufacturers.Contains(manufacturer.ToLower())))
+            {
+                return true; // Running on emulator
+            }
+
+            return false; // Not running on emulator
         }
 
 
